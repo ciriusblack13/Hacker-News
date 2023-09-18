@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for character set, viewport, and Open Graph -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      property="og:title"
+      content="Hacker News by José Antonio - Web Developer"
+    />
+    <meta property="og:description" content="News about tech" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="website" />
+
+    <title>Hacker News</title>
+
+    <!-- Favicon link -->
+    <link rel="icon" alt="HN logo" type="image/x-icon" href="" />
+
+    <!-- Tailwind CSS stylesheet -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-700">
+    <h1 class="text-4xl font-bold text-center mt-10 mb-5 text-blue-400">
+      Hacker News
+    </h1>
+  
+    <!-- Lista delle News -->
+    <ul id="news-list" class="max-w-3xl mx-auto space-y-6 p-4">
+    </ul>
+  
+    <!-- Pulsante "Load more" -->
+    <div class="flex justify-center mt-8">
+      <button id="load-more" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Carica Altre News
+      </button>
+    </div>
+    <!-- PERSONAL SCRIPT -->
+    <script type="module" src="./bundle.js"></script>
+  </body>
+</html>
