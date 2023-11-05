@@ -6,14 +6,28 @@ const loaderButton = document.getElementById('load-more');
 
 const createNewElement = (element) => document.createElement(element);
 
+// Reset the state
+const resetState = () => {
+  storiesId.length = 0;
+  loadedNewsCount = 10;
+  const newsList = document.getElementById('news-list');
+  newsList.innerHTML = '';
+};
+
 // Get new stories
-const getNewStories = async () => {
-  try {
-    const response = await axios.get('https://hacker-news.firebaseio.com/v0/newstories.json');
-    storiesId.push(...response.data);
-  } catch (error) {
-    console.error(error);
-  }
+const getNewStories = () => {
+  resetState();
+  return axios.get('https://hacker-news.firebaseio.com/v0/newstories.json')
+    .then((response) => {
+      storiesId.push(...response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => {
+      const loaderElement = document.getElementById('loader');
+      loaderElement.innerHTML = '';
+    });
 };
 
 // Get full story details
@@ -42,13 +56,16 @@ const createStoryElement = (storyDetails) => {
   const divDetails = createNewElement('div');
   divDetails.classList.add('flex-1');
 
-  const pCategory = createNewElement('p');
-  pCategory.classList.add('category', 'text-sm', 'mb-1');
-  pCategory.textContent = storyDetails.type.toUpperCase();
+  const createAndAppendElement = (element, className, textContent) => {
+    const el = createNewElement(element);
+    el.classList.add(className);
+    el.textContent = textContent;
+    return el;
+  }
 
-  const h2Title = createNewElement('a');
-  h2Title.classList.add('title', 'text-xl', 'font-semibold', 'mb-2');
-  h2Title.textContent = storyDetails.title;
+  const pCategory = createAndAppendElement('p', 'category', storyDetails.type.toUpperCase());
+  const h2Title = createAndAppendElement('a', 'title', storyDetails.title);
+  
   if (storyDetails.url) {
     h2Title.href = storyDetails.url;
   } else {
@@ -64,7 +81,7 @@ const createStoryElement = (storyDetails) => {
   const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear().toString().slice(-2)}`;
   pDate.textContent = formattedDate;
 
-  // Aggiungere gli elementi al documento
+  // Add elements to the document
   divCover.appendChild(imgCover);
   divDetails.appendChild(pCategory);
   divDetails.appendChild(h2Title);
